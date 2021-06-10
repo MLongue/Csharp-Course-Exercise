@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Models;
 using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Services;
 using SalesWebMvc.Services.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace SalesWebMvc.Controllers
 {
@@ -73,9 +74,9 @@ namespace SalesWebMvc.Controllers
                 await _sellerService.RemoveAsync(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch(IntegrityException e)
+            catch (IntegrityException e)
             {
-                return RedirectToAction(nameof(Error), new { message = e.Message }); ;
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 
@@ -83,13 +84,13 @@ namespace SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not provided" }); ;
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
 
             var obj = await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not found" }); ;
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             return View(obj);
@@ -99,18 +100,19 @@ namespace SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not provided" }); ;
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
+
             var obj = await _sellerService.FindByIdAsync(id.Value);
             if (obj == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not found" }); ;
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
 
             List<Department> departments = await _departmentService.FindAllAsync();
             SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
             return View(viewModel);
-        }
+        } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -122,10 +124,9 @@ namespace SalesWebMvc.Controllers
                 var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
                 return View(viewModel);
             }
-
             if (id != seller.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id mismatch" }); ;
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
             }
             try
             {
@@ -134,7 +135,7 @@ namespace SalesWebMvc.Controllers
             }
             catch (ApplicationException e)
             {
-                return RedirectToAction(nameof(Error), new { message = e.Message }); ;
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
         }
 

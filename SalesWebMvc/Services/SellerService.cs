@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SalesWebMvc.Data;
-using SalesWebMvc.Models;
-using SalesWebMvc.Services.Exceptions;
+﻿using SalesWebMvc.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SalesWebMvc.Services.Exceptions;
 
 namespace SalesWebMvc.Services
 {
@@ -21,6 +21,7 @@ namespace SalesWebMvc.Services
         {
             return await _context.Seller.ToListAsync();
         }
+
         public async Task InsertAsync(Seller obj)
         {
             _context.Add(obj);
@@ -42,7 +43,7 @@ namespace SalesWebMvc.Services
             }
             catch (DbUpdateException e)
             {
-                throw new IntegrityException("Can't delete seller because they have sales");
+                throw new IntegrityException("Can't delete seller because he/she has sales");
             }
         }
 
