@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<SalesWebMvc.Models.Seller>
 
-
 @{
     ViewData["Title"] = "Sellers";
 }
@@ -51,6 +50,9 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
+
         }
     </tbody>
+
 </table>
+
