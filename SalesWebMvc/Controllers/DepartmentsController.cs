@@ -39,7 +39,7 @@ namespace SalesWebMvc.Controllers
                 return NotFound();
             }
 
-            return View(department);
+            return View("Details",department);
         }
 
         // GET: Departments/Create
